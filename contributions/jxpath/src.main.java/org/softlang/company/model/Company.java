@@ -29,4 +29,12 @@ public class Company {
 		this.departments.add(d);
 	}
 
+	@Override
+	public String toString() {
+		String result = "Company " + this.name + ":\nDepartments: ";
+		for (Department d : this.departments)
+			result += "\n" + d.getName();
+		return result;
+	}
+
 }

@@ -36,4 +36,9 @@ public class Employee {
 		this.salary = salary;
 	}
 
+	public String toString() {
+		return "Person:\nName " + name + ": \nAddress: " + address
+				+ "\nSalary: " + salary;
+	}
+
 }

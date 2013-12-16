@@ -49,4 +49,11 @@ public class Department {
 		this.subDepartments.add(d);
 	}
 
+	public String toString() {
+		String result = "Department " + this.name + ": \nManager: "
+				+ this.manager.getName() + "\nEmployees:";
+		for (Employee e : this.employees)
+			result += "\n" + e.getName();
+		return result;
+	}
 }
