@@ -1,6 +1,7 @@
 package org.softlang.company.features;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import org.apache.commons.jxpath.JXPathContext;
 import org.softlang.company.model.Company;
@@ -14,25 +15,35 @@ import org.softlang.company.model.Employee;
 public class Cut {
 
 	/**
+	 * Cut using loop to modify salaries. Much shorter version of cut.
 	 * 
 	 * @param c
 	 *            Company to cut salaries
 	 */
 	public static void cut(Company c) {
 		JXPathContext con = JXPathContext.newContext(c);
-		ArrayList<Employee> es = new ArrayList<Employee>();
-		es.addAll(con.selectNodes("//employees"));
-		es.addAll(con.selectNodes("//manager"));
-		for (Employee e : es)
+		Iterator<Employee> it = con.iterate("//employees|//manager");
+		while (it.hasNext()) {
+			Employee e = it.next();
 			e.setSalary(e.getSalary() / 2);
+		}
 	}
 
-	public static void cutX(Company c) {
+	/**
+	 * Cut using JXPath to modify salaries. Method demonstrate JXPath ability to
+	 * alter values.
+	 * 
+	 * @param c
+	 *            Company to cut salaries
+	 */
+	public static void cutXPath(Company c) {
 		JXPathContext con = JXPathContext.newContext(c);
-		ArrayList<Employee> es = new ArrayList<Employee>();
-		es.addAll(con.selectNodes("//employees"));
-		es.addAll(con.selectNodes("//manager"));
-		for (Employee e : es)
-			e.setSalary(e.getSalary() / 2);
+		LinkedList<Employee> es = new LinkedList<Employee>();
+		es.addAll(con.selectNodes("//employees | //manager"));
+		con = JXPathContext.newContext(es);
+		for (int i = 1; i <= es.size(); i++) {
+			con.setValue("@salary[" + i + "]",
+					(Double) con.getValue("@salary[" + i + "]") / 2);
+		}
 	}
 }
