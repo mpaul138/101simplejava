@@ -1,0 +1,16 @@
+delimiters "<", ">"
+
+company(c)::="{\"name\":\"<c.name>\",
+\"departments\":[<first(c.departments):department()>
+<rest(c.departments):{x|,<x:department()>}>]}"
+
+department(d) ::="{\"name\":\"<d.name>\",
+\"manager\":<d.manager:employee()>,
+\"employees\":[<first(d.employees):employee()>
+<rest(d.employees):{x|,<x:employee()>}>],
+\"subDepartments\":[<first(d.subDepartments):department()>
+<rest(d.subDepartments):{x|,<x:department()>}>]}"
+
+employee(e) ::="{name:\"<e.name>\",
+address:\"<e.address>\",
+salary:<e.salary>}"
