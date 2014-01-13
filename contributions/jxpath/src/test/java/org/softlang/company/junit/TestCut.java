@@ -65,20 +65,9 @@ public class TestCut {
 		total /= 2;
 		Cut.cut(snpp);
 		assertEquals(total, Total.total(snpp), 0.0d);
+		total /= 2;
+		Cut.cut(snpp);
+		assertEquals(total, Total.total(snpp), 0.0d);
 	}
 
-	/**
-	 * Test method for
-	 * {@link org.softlang.company.features.Cut#cut(org.softlang.company.model.Company)}
-	 * .
-	 */
-	@Test
-	public void testCutXPath() {
-		double total = 1126839.0 / 2;
-		Cut.cutXPath(snpp);
-		assertEquals(total, Total.total(snpp), 0.0d);
-		total /= 2;
-		Cut.cutXPath(snpp);
-		assertEquals(total, Total.total(snpp), 0.0d);
-	}
 }
