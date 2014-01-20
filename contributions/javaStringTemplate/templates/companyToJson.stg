@@ -11,6 +11,6 @@ department(d) ::="{\"name\":\"<d.name>\",
 \"subDepartments\":[<first(d.subDepartments):department()>
 <rest(d.subDepartments):{x|,<x:department()>}>]}"
 
-employee(e) ::="{name:\"<e.name>\",
-address:\"<e.address>\",
-salary:<e.salary>}"
+employee(e) ::="{\"name\":\"<e.name>\",
+\"address\":\"<e.address>\",
+\"salary\":<e.salary>}"
