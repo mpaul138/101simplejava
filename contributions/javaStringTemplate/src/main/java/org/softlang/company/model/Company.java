@@ -13,6 +13,12 @@ public class Company {
 		this.departments = new ArrayList<Department>();
 	}
 
+	public Company(String name, List<Department> departments) {
+		super();
+		this.name = name;
+		this.departments = departments;
+	}
+
 	public String getName() {
 		return name;
 	}

@@ -17,6 +17,15 @@ public class Department {
 		this.subDepartments = new ArrayList<Department>();
 	}
 
+	public Department(String name, Employee manager,
+			List<Department> subDepartments) {
+		super();
+		this.name = name;
+		this.manager = manager;
+		this.employees = new ArrayList<Employee>();
+		this.subDepartments = subDepartments;
+	}
+
 	public String getName() {
 		return name;
 	}
