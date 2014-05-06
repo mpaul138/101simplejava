@@ -14,21 +14,26 @@ import org.stringtemplate.v4.STGroupFile;
  * 
  */
 public class Unparsing {
+
+	public static String unparse(Company c, String file) {
+		String res = unparse(c);
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.write(res);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 	public static String unparse(Company c) {
-		STGroup group = new STGroupFile("templates" + File.separatorChar
-				+ "companyToJson.stg");
+		STGroup group = new STGroupFile("src" + File.separatorChar + "main"
+				+ File.separatorChar + "stringtemplate" + File.separatorChar
+				+ "companyUnparsing.stg");
 		ST st = group.getInstanceOf("company");
 		st.add("c", c);
 		return st.render();
 	}
 
-	public static void saveAndUnparse(Company c, String file) {
-		try {
-			FileWriter writer = new FileWriter(file);
-			writer.write(unparse(c));
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
