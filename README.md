@@ -21,9 +21,13 @@ git://github.com/101companies/101simplejava.git
 * Java SDK 6+ (with Java SDK binaries in the PATH or JAVA_HOME set up)
 * Eclipse Juno+ (in case contributions are to be opened in Eclipse)
 
-# Building contributions
+# Building information
 
-All contributions are built using [Gradle](www.gradle.org).
+All contributions are built using [Gradle](www.gradle.org), check [this site](hhttp://www.gradle.org/tooling) for an offical plugin for your IDE. 
+
+When using an offical Plugin, just download this repo and import the contributions with your IDE.
+
+# Building contributions
 
 In order to ease deployment, a wrapper script downloads and installs Gradle locally.
 
@@ -40,6 +44,8 @@ Run the following command, which downloads Gradle if needed and performs possibl
 Then, run another command to build and test all contributions:
 
     $ ./gradlew build
+
+If this approach fails, it may be that there is an issue with a particular contribution which takes down the entire build step. Perhaps, this problematic contribution is not even of interest for you. In this case, you could just try to build the contributions of interest individually, as described below.
     
 # Preparing contributions for Eclipse
 
@@ -48,6 +54,8 @@ Eclipse project information can be generated for all projects by running another
     $ ./gradlew eclipse
 
 This command leaves the contributions in a state ready to be imported into an Eclipse workspace.
+
+You can use the [Gradle-Eclipse-Plugin](https://github.com/spring-projects/eclipse-integration-gradle/) instead.
 
 # Exercising individual contributions
 
@@ -70,7 +78,9 @@ Then, run the following command to build and test the contribution:
 
 Use the batchfile "gradlew.bat" instead of the script "gradlew".
 
-Run the batchfile from a command prompt, not from the Windows Explorer.
+Run the batchfile from a command prompt with "gradlew" instead of "./gradlew" as explained above, not from the Windows Explorer.
+
+The "../gradlew" command doesn't work on windows.
 
 Check that JDK binaries are in your PATH and/or the JAVA_HOME environment variable is set.
 
