@@ -10,7 +10,7 @@ public class Company {
 	public Company(String name) {
 		super();
 		this.name = name;
-		this.departments = new ArrayList<Department>();
+		this.departments = new ArrayList<Department>(); 
 	}
 
 	public Company(String name, List<Department> departments) {
