@@ -9,12 +9,19 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 public class Parsing {
-	public static Company parseFromFile(String file) throws IOException {
+	public static Company parseFromFile(String file) {
 		Gson gson = new Gson();
-		JsonReader read = new JsonReader(new FileReader(file));
+		JsonReader read;
 		Company res = new Company("");
-		res = gson.fromJson(read, res.getClass());
-		read.close();
+		try {
+			read = new JsonReader(new FileReader(file));
+
+			res = gson.fromJson(read, res.getClass());
+			read.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return res;
 	}
 }
