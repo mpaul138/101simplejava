@@ -6,15 +6,13 @@ import java.util.List;
 public class Department {
 	private String name;
 	private Employee manager;
-	private List<Department> departments;
-	private List<Employee> employees;
+	private List<Department> departments = new ArrayList<Department>();
+	private List<Employee> employees = new ArrayList<Employee>();
 
 	public Department(String name, Employee manager) {
 		super();
 		this.name = name;
 		this.manager = manager;
-		this.employees = new ArrayList<Employee>();
-		this.departments = new ArrayList<Department>();
 	}
 
 	public Department(String name, Employee manager,
@@ -22,7 +20,6 @@ public class Department {
 		super();
 		this.name = name;
 		this.manager = manager;
-		this.employees = new ArrayList<Employee>();
 		this.departments = subDepartments;
 	}
 

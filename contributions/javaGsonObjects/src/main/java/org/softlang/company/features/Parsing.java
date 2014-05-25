@@ -24,4 +24,11 @@ public class Parsing {
 
 		return res;
 	}
+
+	public static Company parse(String jsonString) {
+		Gson gson = new Gson();
+		Company res = new Company("");
+		gson.fromJson(jsonString, res.getClass());
+		return res;
+	}
 }
