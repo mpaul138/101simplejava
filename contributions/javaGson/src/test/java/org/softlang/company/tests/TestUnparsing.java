@@ -11,17 +11,18 @@ import java.io.IOException;
 import org.junit.Test;
 import org.softlang.company.features.Parsing;
 import org.softlang.company.features.Unparsing;
-import org.softlang.company.model.Company;
+
+import com.google.gson.JsonObject;
 
 public class TestUnparsing {
 
 	@Test
 	public void testUnparse() {
 		String in = "inputs" + File.separator + "sampleCompany.json";
-		Company c;
+		JsonObject o;
 		try {
-			c = Parsing.parseFromFile(in);
-			String jsonOut = Unparsing.unparse(c);
+			o = Parsing.parseFromFile(in);
+			String jsonOut = Unparsing.unparse(o);
 			String jsonIn = "";
 			BufferedReader input = new BufferedReader(new FileReader(new File(
 					in)));
@@ -41,13 +42,13 @@ public class TestUnparsing {
 	public void testUnparseToFile() {
 		String in = "inputs" + File.separator + "sampleCompany.json";
 		String out = "outputs" + File.separator + "outCompany.json";
-		Company c;
-		new File("outputs").mkdir();
-		c = Parsing.parseFromFile(in);
+		JsonObject o;
+		o = Parsing.parseFromFile(in);
 		String jsonIn = "";
 		String jsonOut = "";
 		try {
-			Unparsing.unparseToFile(c, out);
+			new File("outputs").mkdir();
+			Unparsing.unparseToFile(o, out);
 			BufferedReader input = new BufferedReader(new FileReader(new File(
 					in)));
 			BufferedReader output = new BufferedReader(new FileReader(new File(
