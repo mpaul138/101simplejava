@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Company {
 	private String name;
-	private List<Department> departments;
+	private List<Department> departments = new ArrayList<Department>();
 
 	public Company(String name) {
 		super();
 		this.name = name;
-		this.departments = new ArrayList<Department>(); 
+
 	}
 
 	public Company(String name, List<Department> departments) {
