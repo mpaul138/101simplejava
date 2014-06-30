@@ -23,7 +23,7 @@ git://github.com/101companies/101simplejava.git
 
 # Building information
 
-All contributions are built using [Gradle](www.gradle.org), check [this site](hhttp://www.gradle.org/tooling) for an offical plugin for your IDE. 
+All contributions are built using [Gradle](www.gradle.org), check [this site](http://www.gradle.org/tooling) for an offical plugin for your IDE. 
 
 When using an offical Plugin, just download this repo and import the contributions with your IDE.
 
@@ -55,7 +55,7 @@ Eclipse project information can be generated for all projects by running another
 
 This command leaves the contributions in a state ready to be imported into an Eclipse workspace.
 
-You can use the [Gradle-Eclipse-Plugin](https://github.com/spring-projects/eclipse-integration-gradle/) instead.
+You can use the [Gradle-Eclipse-Plugin](https://github.com/spring-projects/eclipse-integration-gradle/) instead. In this case, before importing change "Java Home" in  Window -> Prefences -> Gradle -> Arguments to "Workspace JRE".
 
 # Exercising individual contributions
 

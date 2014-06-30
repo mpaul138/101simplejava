@@ -1,0 +1,12 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+group = 'org.softlang.company'
+version = '1.0.0'
+
+// Implementation specifics
+// This implementation uses ANTLR for Parser-Generation and JUnit for testing
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11+'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.178+'
+}
