@@ -17,13 +17,13 @@ import akka.util.Timeout;
 
 public class Total {
 
-	public static double total(Company c,ActorSystem system) throws Exception {
+	public static double total(Company c, ActorSystem system) throws Exception {
 		double result = 0.0;
-		
-		ActorRef myActor = system.actorOf(Props.create(TotalActor.class),
-				  "totalactor");
+
+		ActorRef myActor = system.actorOf(Props.create(TotalActor.class));
 		Timeout timeout = new Timeout(Duration.create(5, "seconds"));
-		Future<Object> future = Patterns.ask(myActor, new TotalMessage(c), timeout);
+		Future<Object> future = Patterns.ask(myActor, new TotalMessage(c),
+				timeout);
 		result = (Double) Await.result(future, timeout.duration());
 		return result;
 	}

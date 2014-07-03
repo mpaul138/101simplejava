@@ -3,18 +3,14 @@ package org.softlang.company.actors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.softlang.company.messages.AcceptActorMessage;
+import org.softlang.company.messages.CutDepartmentsMessage;
 import org.softlang.company.messages.EndMessage;
-import org.softlang.company.messages.RegisterActorMessage;
 import org.softlang.company.messages.TotalDepartmentsMessage;
-import org.softlang.company.messages.TotalEndResultMessage;
-import org.softlang.company.messages.TotalMessage;
 import org.softlang.company.messages.TotalResultMessage;
 import org.softlang.company.model.Department;
 import org.softlang.company.model.Employee;
 
 import scala.concurrent.Await;
-import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -22,29 +18,21 @@ import akka.actor.UntypedActor;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
 
-public class CollectTotalActor extends UntypedActor {
-	private ActorRef back = null;
+public class CutDepartmentsActor extends UntypedActor {
 	private boolean end = false;
-	private Future<Object> childResult;
+
+	// private ActorRef back = null;
 
 	@Override
 	public void onReceive(Object message) throws Exception {
-		// TODO Auto-generated method stub
-		if (message instanceof TotalDepartmentsMessage) {
-			back = this.getSender();
-			Double result = getTotal(getEmployees(((TotalDepartmentsMessage) message)
-					.getDepartments()));
-			if (!end) {
-				Timeout timeout = new Timeout(Duration.create(5, "seconds"));
-				result += ((TotalResultMessage) Await.result(childResult,
-						timeout.duration())).getResult();
-			}
-			back.tell(new TotalResultMessage(result), getSelf());
+		if (message instanceof CutDepartmentsMessage) {
+			List<Department> ds = ((CutDepartmentsMessage) message)
+					.getDepartments();
+			cutSalaries(getEmployees(ds));
+			if (end)
+				this.getSender().tell(new EndMessage(), this.getSelf());
 		} else if (message instanceof EndMessage)
-			back.forward(message, this.context());
-		else {
-
-		}
+			this.getContext().parent().tell(message, this.getSelf());
 	}
 
 	/**
@@ -54,7 +42,7 @@ public class CollectTotalActor extends UntypedActor {
 	 * @return collected employees
 	 */
 	private List<Employee> getEmployees(List<Department> ds) {
-		ArrayList<Employee> employees = new ArrayList<Employee>();
+		List<Employee> employees = new ArrayList<Employee>();
 		List<Department> nextDepartments = new ArrayList<Department>();
 		for (Department d : ds) {
 			nextDepartments.addAll(d.getDepartments());
@@ -76,28 +64,19 @@ public class CollectTotalActor extends UntypedActor {
 	private void nextInstance(List<Department> nextDepartments) {
 		if (!nextDepartments.isEmpty()) {
 			ActorRef child = this.context().actorOf(
-					Props.create(CollectTotalActor.class));
+					Props.create(CutDepartmentsActor.class));
 			Timeout timeout = new Timeout(Duration.create(5, "seconds"));
-			childResult = Patterns.ask(child, new TotalDepartmentsMessage(
-					nextDepartments), timeout);
-		} else {
+			child.tell(new CutDepartmentsMessage(nextDepartments),
+					this.getSelf());
+		} else
 			end = true;
-		}
 	}
 
-	/**
-	 * calculate total of employees es
-	 * 
-	 * @param es
-	 *            list of employees
-	 * @return total of employees es
-	 */
-	private double getTotal(List<Employee> es) {
-		double result = 0.0;
-		for (Employee e : es)
-			result += e.getSalary();
-		// System.out.println(result);
-		return result;
+	private void cutSalaries(List<Employee> es) {
+		for (Employee e : es) {
+			e.setSalary(e.getSalary() / 2);
+			// System.out.println(e.getSalary());
+		}
 	}
 
 }

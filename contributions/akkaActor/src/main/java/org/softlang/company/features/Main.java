@@ -19,6 +19,13 @@ public class Main {
 		ActorSystem system = ActorSystem.create("MySystem");
 		System.out.println("org total: " + CompanyCreator.SALARY);
 		System.out.println("calculated total: " + Total.total(c, system));
+		Cut.cut(c, system);
+		for (int i = 0; i < 1000000; i++) {
+			int j;
+			j = i % 5;
+		}
+		System.out.println("calculated new total: " + Total.total(c, system));
+		System.out.println(2 * Total.total(c, system) == CompanyCreator.SALARY);
 		// ActorRef a = system.actorOf(Props.create(TestActor.class));
 		// Timeout timeout = new Timeout(Duration.create(10, "seconds"));
 		// Future<Object> b = Patterns.ask(a, "Test", timeout);

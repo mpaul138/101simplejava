@@ -39,16 +39,9 @@ public class TotalActor extends UntypedActor {
 		} else if (message instanceof TotalResultMessage) {
 			back.tell(new Double(((TotalResultMessage) message).getResult()),
 					getSelf());
-		}
+		} else
+			unhandled(message);
 	}
-
-	// private List<Double> checkFutures() throws Exception {
-	// ArrayList<Double> results = new ArrayList<Double>();
-	// for (Future<Object> f : futures)
-	// results.add(((TotalResultMessage) Await.result(f,
-	// timeout.duration())).getResult());
-	// return results;
-	// }
 
 	private double addTotals(List<Double> results) {
 		double result = 0.0;
