@@ -24,26 +24,33 @@ public class TotalActor extends UntypedActor {
 	@Override
 	public void onReceive(Object message) throws Exception {
 		ActorRef child;
-		if (message instanceof TotalMessage) {
+		if (message instanceof TotalMessage) {// decide what to do depending on
+												// the message
 			back = this.getSender();
 			child = this.context().actorOf(
-					Props.create(DepartmentsActor.class), "total");
+					Props.create(DepartmentsActor.class), "total");// create new
+																	// child
 			List<Department> ds = ((TotalMessage) message).getCompany()
 					.getDepartments();
 			child.tell(new DepartmentsMessage(ds), this.getSelf());
+			// send message asynchronously to actor
 		} else if (message instanceof EmployeeMessage) {
 			results.add(addSalaries(((EmployeeMessage) message).getEmployees()));
 		} else if (message instanceof EndMessage) {
 			double result = 0.0;
 			for (double r : results)
 				result += r;
-			this.getContext().getChild("total")
-					.tell(akka.actor.PoisonPill.getInstance(), this.getSelf());
 			back.tell(result, this.getSelf());
 		} else
 			unhandled(message);
 	}
 
+	/**
+	 * add all salaries from employees es
+	 * 
+	 * @param es
+	 * @return added salaries
+	 */
 	private double addSalaries(List<Employee> es) {
 		double result = 0.0;
 		for (Employee e : es) {

@@ -11,10 +11,6 @@ public class Main {
 		System.out.println("org total: " + CompanyCreator.SALARY);
 		System.out.println("calculated total: " + Total.total(c));
 		Cut.cut(c);
-		for (int i = 0; i < 1000000; i++) {
-			int j;
-			j = i % 5;
-		}
 		System.out.println("calculated new total: " + Total.total(c));
 		System.out.println(2 * Total.total(c) == CompanyCreator.SALARY);
 		// ActorRef a = system.actorOf(Props.create(TestActor.class));

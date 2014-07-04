@@ -9,16 +9,13 @@ import org.softlang.company.messages.EndMessage;
 import org.softlang.company.model.Department;
 import org.softlang.company.model.Employee;
 
-import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import akka.util.Timeout;
 
 public class DepartmentsActor extends UntypedActor {
 	private ActorRef back = null;
 	private boolean end = false;
-	private Timeout timeout = new Timeout(Duration.create(5, "seconds"));
 
 	@Override
 	public void onReceive(Object message) throws Exception {
