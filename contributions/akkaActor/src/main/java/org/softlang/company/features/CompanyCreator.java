@@ -8,6 +8,7 @@ import org.softlang.company.model.Employee;
  * This class is used to create adequately sized test companies to see the boost
  * of multithreading.
  * 
+ * Copied from javaMultithreading
  */
 public class CompanyCreator {
 

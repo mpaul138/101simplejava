@@ -1,11 +1,14 @@
 package org.softlang.company.actors;
 
-import org.softlang.company.messages.CutDepartmentsMessage;
+import java.util.List;
+
 import org.softlang.company.messages.CutMessage;
+import org.softlang.company.messages.DepartmentsMessage;
+import org.softlang.company.messages.EmployeeMessage;
 import org.softlang.company.messages.EndMessage;
-import org.softlang.company.messages.TotalDepartmentsMessage;
 import org.softlang.company.messages.TotalMessage;
-import org.softlang.company.messages.TotalResultMessage;
+import org.softlang.company.model.Department;
+import org.softlang.company.model.Employee;
 
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
@@ -22,13 +25,23 @@ public class CutActor extends UntypedActor {
 		if (message instanceof CutMessage) {
 			back = this.getSender();
 			child = this.context().actorOf(
-					Props.create(CutDepartmentsActor.class), "cut");
-			child.tell(new CutDepartmentsMessage(((CutMessage) message)
-					.getCompany().getDepartments()), getSelf());
+					Props.create(DepartmentsActor.class), "cut");
+			List<Department> ds = ((CutMessage) message).getCompany()
+					.getDepartments();
+			child.tell(new DepartmentsMessage(ds), getSelf());
 		} else if (message instanceof EndMessage) {
 			this.getContext().getChild("cut")
 					.tell(akka.actor.PoisonPill.getInstance(), this.getSelf());
 			back.tell(message, this.getSelf());
-		}
+		} else if (message instanceof EmployeeMessage) {
+			cutSalaries(((EmployeeMessage) message).getEmployees());
+		} else
+			unhandled(message);
+	}
+
+	private void cutSalaries(List<Employee> es) {
+		for (Employee e : es)
+			e.setSalary(e.getSalary() / 2);
+
 	}
 }

@@ -3,29 +3,23 @@ package org.softlang.company.actors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.softlang.company.messages.AcceptActorMessage;
+import org.softlang.company.messages.DepartmentsMessage;
+import org.softlang.company.messages.EmployeeMessage;
 import org.softlang.company.messages.EndMessage;
-import org.softlang.company.messages.RegisterActorMessage;
-import org.softlang.company.messages.TotalDepartmentsMessage;
-import org.softlang.company.messages.TotalEndResultMessage;
 import org.softlang.company.messages.TotalMessage;
-import org.softlang.company.messages.TotalResultMessage;
 import org.softlang.company.model.Department;
+import org.softlang.company.model.Employee;
 
-import scala.concurrent.Await;
-import scala.concurrent.Future;
-import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import akka.pattern.Patterns;
-import akka.util.Timeout;
 
 public class TotalActor extends UntypedActor {
 	// private ArrayList<Double> results = new ArrayList<Double>();
-	private ActorRef back;
-	private ArrayList<Future<Object>> futures = new ArrayList<Future<Object>>();
-	private Timeout timeout = new Timeout(Duration.create(5, "seconds"));
+	private ActorRef back = null;
+	// private ArrayList<Employee> employees = new ArrayList<Employee>();
+	// private Timeout timeout = new Timeout(Duration.create(5, "seconds"));
+	private ArrayList<Double> results = new ArrayList<Double>();
 
 	@Override
 	public void onReceive(Object message) throws Exception {
@@ -33,20 +27,28 @@ public class TotalActor extends UntypedActor {
 		if (message instanceof TotalMessage) {
 			back = this.getSender();
 			child = this.context().actorOf(
-					Props.create(CollectTotalActor.class));
-			child.tell(new TotalDepartmentsMessage(((TotalMessage) message)
-					.getCompany().getDepartments()), getSelf());
-		} else if (message instanceof TotalResultMessage) {
-			back.tell(new Double(((TotalResultMessage) message).getResult()),
-					getSelf());
+					Props.create(DepartmentsActor.class), "total");
+			List<Department> ds = ((TotalMessage) message).getCompany()
+					.getDepartments();
+			child.tell(new DepartmentsMessage(ds), this.getSelf());
+		} else if (message instanceof EmployeeMessage) {
+			results.add(addSalaries(((EmployeeMessage) message).getEmployees()));
+		} else if (message instanceof EndMessage) {
+			double result = 0.0;
+			for (double r : results)
+				result += r;
+			this.getContext().getChild("total")
+					.tell(akka.actor.PoisonPill.getInstance(), this.getSelf());
+			back.tell(result, this.getSelf());
 		} else
 			unhandled(message);
 	}
 
-	private double addTotals(List<Double> results) {
+	private double addSalaries(List<Employee> es) {
 		double result = 0.0;
-		for (double r : results)
-			result += r;
+		for (Employee e : es) {
+			result += e.getSalary();
+		}
 		return result;
 	}
 }

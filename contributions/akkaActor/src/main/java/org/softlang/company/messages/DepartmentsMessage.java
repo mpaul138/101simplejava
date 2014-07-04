@@ -5,12 +5,10 @@ import java.util.List;
 
 import org.softlang.company.model.Department;
 
-import akka.actor.ActorRef;
-
-public class CutDepartmentsMessage {
+public class DepartmentsMessage {
 	private List<Department> departments = new ArrayList<Department>();
 
-	public CutDepartmentsMessage(List<Department> departments) {
+	public DepartmentsMessage(List<Department> departments) {
 		this.departments = departments;
 
 	}
@@ -22,5 +20,4 @@ public class CutDepartmentsMessage {
 	public void setDepartments(List<Department> departments) {
 		this.departments = departments;
 	}
-
 }

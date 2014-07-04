@@ -1,5 +1,7 @@
 package org.softlang.company.features;
 
+import java.util.concurrent.TimeoutException;
+
 import org.softlang.company.actors.CutActor;
 import org.softlang.company.actors.TotalActor;
 import org.softlang.company.messages.CutMessage;
@@ -19,24 +21,18 @@ import akka.pattern.Patterns;
 import akka.util.Timeout;
 
 public class Cut {
-	public static void cut(Company c, ActorSystem system) throws Exception {
-
+	public static void cut(Company c) {
+		ActorSystem system = ActorSystem.create("MySystem");
 		ActorRef myActor = system.actorOf(Props.create(CutActor.class));
-		// myActor.tell(new CutMessage(c), null);
 		Timeout timeout = new Timeout(Duration.create(10, "seconds"));
 		Future<Object> future = Patterns.ask(myActor, new CutMessage(c),
 				timeout);
-		Await.ready(future, timeout.duration());
-	}
-
-	private static void cut(Department d) {
-		if (d.getManager() != null)
-			d.getManager().setSalary(d.getManager().getSalary() / 2);
-		if (d.getEmployees() != null)
-			for (Employee e : d.getEmployees())
-				e.setSalary(e.getSalary() / 2);
-		if (d.getDepartments() != null)
-			for (Department d2 : d.getDepartments())
-				cut(d2);
+		try {
+			Await.ready(future, timeout.duration());
+		} catch (TimeoutException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

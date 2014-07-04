@@ -17,27 +17,18 @@ import akka.util.Timeout;
 
 public class Total {
 
-	public static double total(Company c, ActorSystem system) throws Exception {
+	public static double total(Company c) {
 		double result = 0.0;
-
+		ActorSystem system = ActorSystem.create("MySystem");
 		ActorRef myActor = system.actorOf(Props.create(TotalActor.class));
-		Timeout timeout = new Timeout(Duration.create(5, "seconds"));
+		Timeout timeout = new Timeout(Duration.create(10, "seconds"));
 		Future<Object> future = Patterns.ask(myActor, new TotalMessage(c),
 				timeout);
-		result = (Double) Await.result(future, timeout.duration());
-		return result;
-	}
-
-	private static double total(Department d) {
-		double result = 0.0;
-		if (d.getManager() != null)
-			result = d.getManager().getSalary();
-		if (d.getEmployees() != null)
-			for (Employee e : d.getEmployees())
-				result += e.getSalary();
-		if (d.getDepartments() != null)
-			for (Department d2 : d.getDepartments())
-				result += total(d2);
+		try {
+			result = (Double) Await.result(future, timeout.duration());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 
