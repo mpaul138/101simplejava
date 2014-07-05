@@ -1,24 +1,18 @@
 package org.softlang.company.features;
 
-import org.softlang.company.actors.TestActor;
-import org.softlang.company.actors.TotalActor;
 import org.softlang.company.model.Company;
 
-import scala.concurrent.Await;
-import scala.concurrent.Future;
-import scala.concurrent.duration.Duration;
-import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.actor.Props;
-import akka.pattern.Patterns;
-import akka.util.Timeout;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
 		Company c = CompanyCreator.createCompany();
 		ActorSystem system = ActorSystem.create("MySystem");
 		System.out.println("org total: " + CompanyCreator.SALARY);
-		System.out.println("calculated total: " + Total.total(c, system));
+		System.out.println("calculated total: " + Total.total(c));
+		Cut.cut(c);
+		System.out.println("calculated new total: " + Total.total(c));
+		System.out.println(2 * Total.total(c) == CompanyCreator.SALARY);
 		// ActorRef a = system.actorOf(Props.create(TestActor.class));
 		// Timeout timeout = new Timeout(Duration.create(10, "seconds"));
 		// Future<Object> b = Patterns.ask(a, "Test", timeout);
