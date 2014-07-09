@@ -122,24 +122,6 @@ public class CompanyThread implements Runnable {
 
 	}
 
-	// private double total() {
-	// double result = 0.0;
-	// for (Department d : company.getDepartments())
-	// result += total(d);
-	// return result;
-	// }
-	//
-	// private double total(Department d) {
-	// double result = 0.0;
-	// if (d.getManager() != null)
-	// result += d.getManager().getSalary();
-	// for (Department d2 : d.getDepartments())
-	// result += total(d2);
-	// for (Employee e : d.getEmployees())
-	// result += e.getSalary();
-	// return result;
-	// }
-
 	public Company getCompany() {
 		return company;
 	}
