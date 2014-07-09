@@ -5,3 +5,11 @@ dependencies {
   testCompile group: 'junit', name: 'junit', version: '4.11+'
   compile group: 'org.apache.activemq', name: 'activemq-all', version: '5.10.0'
 }
+
+// Additional cleanup for ActiveMQ
+clean {
+	dependsOn cleanEclipse
+	doFirst {
+		delete 'activemq-data'
+	}
+}
