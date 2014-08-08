@@ -17,8 +17,11 @@ public class TestCut {
 
 		File in = new File(file);
 		File out = new File(file2);
+		new File("outputs").mkdir();
+
 		assertEquals(326927.0, Total.total(in), 0.0);
 		Cut.cut(in, out);
 		assertEquals(Total.total(in) / 2, Total.total(out), 0.0);
+
 	}
 }

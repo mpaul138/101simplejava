@@ -27,6 +27,7 @@ public class Cut {
 						generator.writeNumber(parser.getDoubleValue() / 2);
 				} else {
 					generator.copyCurrentEvent(parser);
+					// generator.copyCurrentStructure(parser);
 				}
 			}
 			parser.close();
