@@ -4,29 +4,29 @@
     "name" : "Research",
     "manager" : {
       "name" : "Fred",
-      "salary" : 88888.0
+      "salary" : 44444.0
     }
   }, {
     "name" : "Development",
     "manager" : {
       "name" : "Marie",
-      "salary" : 77777.0
+      "salary" : 38888.5
     },
     "departments" : [ {
       "name" : "Dev1",
       "manager" : {
         "name" : "Bob",
-        "salary" : 77776.0
+        "salary" : 38888.0
       }
     }, {
       "name" : "Dev2",
       "manager" : {
         "name" : "Alice",
-        "salary" : 77775.0
+        "salary" : 38887.5
       },
       "employees" : [ {
         "name" : "Ralf",
-        "salary" : 4711.0
+        "salary" : 2355.5
       } ]
     } ]
   } ]

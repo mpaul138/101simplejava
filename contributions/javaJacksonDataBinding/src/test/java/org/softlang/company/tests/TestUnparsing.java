@@ -11,8 +11,7 @@ import java.io.IOException;
 import org.junit.Test;
 import org.softlang.company.features.Parsing;
 import org.softlang.company.features.Unparsing;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import org.softlang.company.model.Company;
 
 public class TestUnparsing {
 
@@ -20,15 +19,14 @@ public class TestUnparsing {
 	public void testUnparse() {
 		File in = new File("inputs" + File.separator + "sampleCompany.json");
 		File out = new File("outputs" + File.separator + "outCompany.json");
-		JsonNode c;
-		c = Parsing.parseFromFile(in);
+		Company c;
+		c = Parsing.parse(in);
 		String jsonIn = "";
 		String jsonOut = "";
 		try {
 			Unparsing.unparse(c, out);
 			BufferedReader input = new BufferedReader(new FileReader(in));
 			BufferedReader output = new BufferedReader(new FileReader(out));
-			FileReader r = new FileReader(in);
 			while (output.ready())
 				jsonOut += output.readLine();
 			while (input.ready())

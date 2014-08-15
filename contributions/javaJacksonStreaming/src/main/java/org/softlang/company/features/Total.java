@@ -9,7 +9,11 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
 public class Total {
-
+	/**
+	 * Get total of the company in JSON-file company
+	 * 
+	 * @param company
+	 */
 	public static double total(File company) {
 		JsonFactory factory = new JsonFactory();
 		JsonParser parser;

@@ -8,15 +8,14 @@ import org.junit.Test;
 import org.softlang.company.features.Cut;
 import org.softlang.company.features.Parsing;
 import org.softlang.company.features.Total;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import org.softlang.company.model.Company;
 
 public class TestCut {
 
 	@Test
 	public void testCut() {
 		String in = "inputs" + File.separator + "sampleCompany.json";
-		JsonNode c = Parsing.parseFromFile(new File(in));
+		Company c = Parsing.parse(new File(in));
 		assertEquals(326927.0, Total.total(c), 0.0);
 		Cut.cut(c);
 		assertEquals(326927.0 / 2, Total.total(c), 0.0);
